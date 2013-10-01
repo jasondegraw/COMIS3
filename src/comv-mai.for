@@ -422,7 +422,7 @@ C     ! Routine setting also tells us whether CRT is used before any
 C     ! error message can occur (UseCRT).
       if (SETFILE) CALL setting
 
-C     ! error messages will just go to CER until COF is openned
+C     ! error messages will just go to CER until COF is opened
       IF (UseCRT.EQ.0)  CRT=0
 
 C     ! Read last part of COMIS.SET file, if it exists
@@ -1149,18 +1149,21 @@ C@NBI                 "RunTime"
 C@NBI               - Also changed order in which things are displayed in line.
 C@NBI               - Also padded "ADVANCE='NO'" line with 2 spaces so that
 C@NBI                 you don't get hanging remains when a shorter line is printed.
+C@psu JWD 2012May03 - Modifications for gfortran
 Ch**********************************************************************
- ! USE statements to include routine interfaces
-      use dflib
-      use dfwin
+C USE statements to include routine interfaces
+C@psu JWD 2012May03 - these libraries aren't available
+CC      use dflib
+CC      use dfwin
       IMPLICIT NONE
- ! Data declarations
+C Data declarations
       integer nlines, ncols
       integer fhandle,ypos
       logical lstatx,curerr
-      Type(T_COORD) wpos
-	Type(T_SMALL_RECT) sr
-      Type(T_CONSOLE_SCREEN_BUFFER_INFO) cinfo
+C@psu JWD 2012May03 - don't need these either
+CC      Type(T_COORD) wpos
+CC      Type(T_SMALL_RECT) sr
+CC      Type(T_CONSOLE_SCREEN_BUFFER_INFO) cinfo
 
 
 
@@ -1289,13 +1292,14 @@ C     ! here follows an intended write to screen
 C$    ! Just de-comment the appropriate line for your compiler
 C$    ! Fortran 90 option is for non-advancing output
 C$    write(*,'(1X,A)',ADVANCE='NO')line(1:lenstr(line))//'  '//char(13) !Fortran 90
-C$    write(*,*) line(1:lenstr(line))                                    !Fortran 77
+      write(*,*) line(1:lenstr(line)) !Fortran 77
 C@empa aw 2005jun07 Different routines for compiler and platform specific I/O.
-C@empa aw 2005jun07 (ADVANCED='NO' does not work with CVF! CVF does not write the
-C@empa aw 2005jun07 non-advancing output to the screen before the end of a record, 
-C@empa aw 2005jun07 that means, only the next advancing output will write the whole record 
-C@empa aw 2005jun07 to the screen. As this only will happen at the end of the simulation, this is useless) 
-      call WriteProgressCVF_CA(line) ! for CVF console application (File COMV-CCA.FOR)
+C@empa aw 2005jun07 (ADVANCED='NO' does not work with CVF! CVF does not write
+C@empa aw 2005jun07 the non-advancing output to the screen before the end of a
+C@empa aw 2005jun07 record, that means, only the next advancing output
+C@empa aw 2005jun07 will write the whole record to the screen. As this only
+C@empa aw 2005jun07 will happen at the end of the simulation, this is useless) 
+C$      call WriteProgressCVF_CA(line) ! for CVF console application (File COMV-CCA.FOR)
 C$      call WriteProgressCVF_QW(line) !for CVF QuickWin application (File: COMV-CQW.FOR)
       return
       end

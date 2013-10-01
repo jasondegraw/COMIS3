@@ -93,11 +93,11 @@ all: $(progs)
 #
 $(obj): $(includes)
 #
-$(progs): $(obj) $(warns) $(moded)
-	$(FORTRAN) $(FFLAGS) -o $@ $(obj) $(warns) $(moded) -lm $(staticflags)
+$(progs): $(obj) $(warns) $(mainobj)
+	$(FORTRAN) $(FFLAGS) -o $@ $(obj) $(warns) $(mainobj) -lm $(staticflags)
 #
 .for.o:
 	$(FORTRAN) $(FFLAGS) -c $*.for
 #
 clean:
-	$(DELETE) $(progs) $(obj) $(warns) $(moded)
+	$(DELETE) $(progs) $(obj) $(warns) $(mainobj)
