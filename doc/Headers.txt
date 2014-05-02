@@ -1,0 +1,621 @@
+Headers for COMIS v3.2 input file (CIF-file)
+
+UG chapter 4.1
+
+
+&-PR-IDENtification
+  ________________ 
+ |1.|Problem Name |
+ |__|             |
+ |________________|
+  ________________ 
+ |2.|Version Name |
+ |__|             |
+ |________________|
+
+
+&-PR-UNITS
+  _______________________________ 
+ | Unit Conversion Definitions   |
+ | Name    |  Input   |  Output  |
+ |_________|__________|__________|
+
+
+&-PR-SIMUlation options
+  ____________________________________________________________ 
+ | Simulation Option Keywords: One keyword per line           |
+ |                             Keywords may be preceded by NO |
+ |____________________________________________________________|
+ | VENTilation                        CHECKCondensation       |
+ | 2VENT                              INPUT                   |
+ | POLutants <no>                     DEFAULT <no>            |
+ | POLSTEP <step> [<time> <step2>]    SET                     |
+ |                                    UNIT                    |
+ |                                    ECHOSCHedule            |
+ |                                    ONSCREEN [time|progress |
+ | SCHEDtime <time>                      |niter|pol<n>| error]|
+ | HISTOtime <time>                   STEADY                  |
+ | STARTtime <time> [CONT|REUSE]      DEBUG <no>              |
+ | STOPtime  <time> [KEEP]            LOOPRHO                 |
+ |____________________________________________________________|
+
+
+&-PR-OUTPut options
+  __________________________________________________________________________ 
+ | Output Options Keywords: One keyword per line                            |
+ |--------------------------------------------------------------------------|
+ | Format:                                                                  |
+ | Keyword-mode [name[,name][,name-name][,...]]                             |
+ | Keyword-mode [name[,name][,name-name][,...]]                             |
+ | mode:       S :  Storing each value in *.CSO file                        |
+ |             T :  mean value of Total simulation period in *.COF          |
+ |             Hn:  Histogram of Histo-period in *.CHO                      |
+ | name:       corresponding to the keyword, name is a zone, a link or      |
+ |             an external node name                                        |
+ |--------------------------------------------------------------------------|
+ | Keyword Parameter      | Keyword Parameter      | Keyword Parameter      |
+ |--------------------------------------------------------------------------|
+ | per Zone               | per Link               | Ambient conditions     |
+ | FZ      Flow rate      | FL      Flow           | WA      Wind velocity  |
+ | PZ      Pressure       | TL      Temperature    | TA      Temperature    |
+ | TZ      Temperature    | VL      actual Value   | HA      Humidity       |
+ | HZ      Humidity       |------------------------|                        |
+ | IZ      Infiltration   | per External node      |------------------------|
+ | AZ      outdoor Air    | PE      Pressure       | per Building           |
+ |         change rate    |------------------------| FB      Flow matrix    |
+ | MZ      Mean age       |                        | FW      Flow matrix W  |
+ | EZ      air change     |                        | IB      Infiltration   |
+ |         index          |                        | AB      outdoor Air    |
+ | On      number of      |                        |         change rate    |
+ |         occupants      |                        | MB      arithmetic     |
+ | Yn      activity factor|                        |         Mean age       |
+ |         of occ type n  |                        | RB      disparity      |
+ |                        |                        |         of mean age    |
+ | per Zone and           |------------------------| NB      Nominal time   |
+ | Contaminant            | Examples:              |         constant       |
+ | Cn      concentration  | FZ-S zn1,zn2-zn7,zn10  | EB      air change     |
+ | Sn      sink           | FL-T li1,>li3,<li3     |         Efficiency     |
+ | Qn      source         | > := flow From --> To  | LB      ventilation    |
+ | Fn      eff flow       | < := flow From <-- To  |         heatloss       |
+ |________________________|________________________|________________________|
+
+
+&-PR-CONTrol parameters 
+  ____________________________________________________________________ 
+ |1.| Under |     T  o  l  e  r  a  n  c  e  s   |Start  |Link Flow   |
+ |__| Relax-|____________________________________|Number |Pressure    |
+ |    ation | absolute  | Relative |             |of Ite-|Laminar Flow|
+ |    Factor|  EpsFA    |  EpsFR   |  EpsCJ      |rations|DifLim      |
+ |    [-]   |  [flow]   |  [-]     |  [flow]     |  [-]  |   [pres]   |
+ |__________|___________|__________|_____________|_______|____________|
+  _______________________________________________________________________________
+ |2.| Pressure       | Pressure        | Max        |  Solver selector (OPTIONAL)|
+ |__| initialization | initialization  | Iterations |                            |
+ |    frst time step | later time steps| allowed    |                            |
+ |                   |                 |            | 1=Newton (with given Relax)|
+ | 0=zero Pressure   | 0=zero Pressure |            | 3=Walton Steffensen        |
+ | 1=linear system   | 1=linear system |            | 5=Walton 2 fixed relax.fact|
+ |                   | 2=previous value|            | 6=trust region line search |
+ |    stp1Init       |    stp2Init     |  Miter     | slvSel                     |
+ |     [-]           |     [-]         |   [-]      | [-]                        |
+ |___________________|_________________|____________|____________________________|
+
+
+&-HISTO
+  ____________________________________________________ 
+ | Histogram | Number of | Lowest Class| Highest Class|
+ |           |  Classes  |             |              |
+ |   (-)     |    (-)    |    (?)      |     (?)      |
+ |___________|___________|_____________|______________|
+
+
+UG chapter 4.2
+
+
+&-CR       CRACK
+  __________________________________ 
+ |1.| Prefix and Name | Description |
+ |__|        (-)      | [-]         |
+ |____________________|_____________|
+  ___________________________________________________ 
+ |2.|   Cs    |Exp n   | Length  |  Wall Properties  |
+ |__|         |        |         |Thickness| U-value |
+ | (airl)     |  (-)   |   [m]   |   [m]   | [W/m2/K]|
+ |____________|________|_________|_________|_________|
+  _________________________________________________________ 
+ |3.| Filter 1 | Filter 2 | Filter 3 | Filter 4 | Filter 5 |
+ |__|   (-)    |   [-]    |   [-]    |   [-]    |   [-]    |
+ |_____________|__________|__________|__________|__________|
+
+
+&-NORM-CR Standard temperature for crack data
+  _______________________________________________________________________ 
+ |Standard Temperature| Standard Barometric Pressure | Standard Humidity |
+ | for the Crack Data |      for the Crack Data      |  for Crack Data   |
+ |   (default 20 C)   |     (default 101.325 kPa)    | (default 0 g/kg)  |
+ |     [temp]         |           [kPa]              |      [humi]       |
+ |____________________|______________________________|___________________|
+
+
+&-FA       FAN
+# line1= Fan name....   #line2=flag....   #line3=Pminimum....   #line4=CO
+# line5 up to maybe line8=data pairs
+# the last line is always the filter line
+  __________________________________ 
+ |1.| Prefix and Name | Description |
+ |__|        (-)      | [-]         |
+ |____________________|_____________|
+  _____________________________________________________________ 
+ |2.|# Flag: 1,2 = Polynomial C0,..C5, input provided by user  |
+ |__|        3   = Interpolation calculated by COMIS           |
+ |                 from data pairs                             |
+ | ____________________________________________________________|
+ | Flag|Exp Polynom.|RhoI    |  NfI   |     Cs        | Exp n  |
+ | (-) |    (-)     |(kg/m3) | [rpm]  |  [airl]       |  [-]   |
+ |_____|____________|________|________|_______________|________|
+  _____________________________________________ 
+ |3.| Pmin  |  Pmax    |  Slope    | Intercept |
+ |__| (pres)|  (pres)  |(cflo/pres)|  (cflo)   |
+ |__________|__________|___________|___________|
+  ______________________________________________________________________ 
+ |4.|  C0   |   C1      |   C2      |   C3      |   C4      |   C5      |
+ |__|(cflo) | [cflo/    | [cflo /   | [cflo/    | [cflo/    | [cflo/    |
+ |          |   pres]   |   pres^2] |   pres^3] |   pres^4] |   pres^5] |
+ |__________|___________|___________|___________|___________|___________|
+  ____________________________________________________________________ 
+ |5.|  Fan Curve:   Pressure Rise vs. FlowRate, maximum 4 Lines       |
+ |__|  Data Pairs:  minimum 3 Pairs,    maximum 12 Pairs              |
+ |  (pres)  |  (cflo)   |  (pres)  |  (cflo)   |  (pres)  |  (cflo)   |
+ |__________|___________|__________|___________|__________|___________|
+  _________________________________________________________ 
+ |9.| Filter 1 | Filter 2 | Filter 3 | Filter 4 | Filter 5 |
+ |__|   (-)    |   [-]    |   [-]    |   [-]    |   [-]    |
+ |_____________|__________|__________|__________|__________|
+
+
+&-DS          duct straight
+# a duct fitting given here will result in an extra dynamic pressure 
+# loss, Zeta
+  __________________________________ 
+ |1.| Prefix and Name | Description |
+ |__|        (-)      | [-]         |
+ |____________________|_____________|
+  ________________________________________________________________________ 
+ |2.|  Ducts straight part                         |       one Fitting    |
+ |__|______________________________________________|______________________|
+ |  Diam1  |  Diam2  |  Rough  |  Lduct  |  Zeta   | Type |Param1 |Param2 |
+ |   (m)   |   (m)   |   (mm)  |   (m)   |   [-]   | [-]  | [?]   | [?]   |
+ |_________|_________|_________|_________|_________|______|_______|_______|
+  _________________________________________________________ 
+ |3.| Filter 1 | Filter 2 | Filter 3 | Filter 4 | Filter 5 |
+ |__|   (-)    |   [-]    |   [-]    |   [-]    |   [-]    |
+ |_____________|__________|__________|__________|__________|
+
+
+&-F1       FLOWCONTROLLER IDEAL SYMMETRIC
+  __________________________________ 
+ |1.| Prefix and Name | Description |
+ |__|        (-)      | [-]         |
+ |____________________|_____________|
+  ________________________________________________________ 
+ |2.|          |   Range1                  | Range2       |
+ |__|          |___________________________|______________|
+ |     RhoI    |     Cq      |    Exp n    | Fva Setpoint |
+ |    (kg/m3)  | (cflo@1Pa)  |     (-)     |    (cflo)    |
+ |_____________|_____________|_____________|______________|
+  ___________________________ 
+ |3.|   Facade Leakage       |
+ |__|________________________|
+ |     Cs      |    Exp n    |
+ |    (airl)   |     (-)     |
+ |_____________|_____________|
+  _________________________________________________________ 
+ |4.| Filter 1 | Filter 2 | Filter 3 | Filter 4 | Filter 5 |
+ |__|   (-)    |   [-]    |   [-]    |   [-]    |   [-]    |
+ |_____________|__________|__________|__________|__________|
+
+
+&-F2       FLOWCONTROLLER IDEAL NON-SYMMETRIC
+  __________________________________ 
+ |1.| Prefix and Name | Description |
+ |__|        (-)      | [-]         |
+ |____________________|_____________|
+  _______________________________________________________________ 
+ |2.|          |   Range1                  | Range2 Fva Setpoint |
+ |__|          |___________________________|_____________________|
+ |     RhoI    |     Cq      |    Exp n    | positive | negative |
+ |    (kg/m3)  | (cflo@1Pa)  |     (-)     |  (cflo)  |  (cflo)  |
+ |_____________|_____________|_____________|_____________________|
+  ___________________________ 
+ |3.|   Facade Leakage       |
+ |__|________________________|
+ |     Cs      |    Exp n    |
+ | (airl)      |     (-)     |
+ |_____________|_____________|
+  _________________________________________________________ 
+ |4.| Filter 1 | Filter 2 | Filter 3 | Filter 4 | Filter 5 |
+ |__|   (-)    |   [-]    |   [-]    |   [-]    |   [-]    |
+ |_____________|__________|__________|__________|__________|
+
+
+&-F3       FLOWCONTROLLER NON-IDEAL SYMMETRIC
+  __________________________________ 
+ |1.| Prefix and Name | Description |
+ |__|        (-)      | [-]         |
+ |____________________|_____________|
+  _________________________________________ 
+ |2.|          |   Range1                  |
+ |__|          |___________________________|
+ |     RhoI    |     Cq      |    Exp n    |
+ |    (kg/m3)  | (cfl@1Pa)   |     (-)     |
+ |_____________|_____________|_____________|
+  ___________________________________________________________________________ 
+ |3.|  Range2                                                                |
+ |__|________________________________________________________________________|
+ | R2Dp1  | R2C0   | R2C1    |  R2C2     |  R2C3     |  R2C4     |  R2C5     |
+ | (pres) | (cflo) | (cflo/  | (cflo/    | (cflo/    | (cflo/    | (cflo/    |
+ |        |        |   pres) |   pres^2) |   pres^3) |   pres^4) |   pres^5) |
+ |________|________|_________|___________|___________|___________|___________|
+  _____________________________________________________________________________ 
+ |4.|  Range3                                                                  |
+ |__|__________________________________________________________________________|
+ | R3Dp1  | R3C0   |  R3C1  |  R3C2    |  R3C3    |  R3C4    |  R3C5    | Pmax |
+ | (pres) | (cflo) | (cflo/ | (cflo/   | (cflo/   | (cflo/   | (cflo/   |(pres)|
+ |        |        |   pres)|   pres^2)|   pres^3)|   pres^4)|   pres^5)|      |
+ |________|________|________|__________|__________|__________|__________|______|
+  _________________________________________________________ 
+ |5.| Filter 1 | Filter 2 | Filter 3 | Filter 4 | Filter 5 |
+ |__|   (-)    |   [-]    |   [-]    |   [-]    |   [-]    |
+ |_____________|__________|__________|__________|__________|
+
+
+&-F4       FLOWCONTROLLER NON-IDEAL ASYMMETRIC
+  __________________________________ 
+ |1.| Prefix and Name | Description |
+ |__|        (-)      | [-]         |
+ |____________________|_____________|
+  _________________________________________ 
+ |2.|          |   Range1                  |
+ |__|          |___________________________|
+ |     RhoI    |     Cq      |    Exp n    |
+ |    (kg/m3)  | (cflo@1Pa)  |     (-)     |
+ |_____________|_____________|_____________| 
+  ___________________________________________________________________________ 
+ |3.|  Range2  positive flow                                                 |
+ |__|________________________________________________________________________|
+ | R2Dp1  | R2C0   | R2C1    |  R2C2     |  R2C3     |  R2C4     |  R2C5     |
+ | (pres) | (cflo) | (cflo/  | (cflo/    | (cflo/    | (cflo/    | (cflo/    |
+ |        |        |   pres) |   pres^2) |   pres^3) |   pres^4) |   pres^5) |
+ |________|________|_________|___________|___________|___________|___________|
+  _____________________________________________________________________________ 
+ |4.|  Range3  positive flow                                                   |
+ |__|__________________________________________________________________________|
+ | R3Dp1  | R3C0   |  R3C1  |  R3C2    |  R3C3    |  R3C4    |  R3C5    | Pmax |
+ | (pres) | (cflo) | (cflo/ | (cflo/   | (cflo/   | (cflo/   | (cflo/   |(pres)|
+ |        |        |   pres)|   pres^2)|   pres^3)|   pres^4)|   pres^5)|      |
+ |________|________|________|__________|__________|__________|__________|______|
+
+  ___________________________________________________________________________ 
+ |5.|  Range2  negative flow                                                 |
+ |__|________________________________________________________________________|
+ | R2Dp1  | R2C0   | R2C1    |  R2C2     |  R2C3     |  R2C4     |  R2C5     |
+ | (pres) | (cflo) | (cflo/  | (cflo/    | (cflo/    | (cflo/    | (cflo/    |
+ |        |        |   pres) |   pres^2) |   pres^3) |   pres^4) |   pres^5) |
+ |________|________|_________|___________|___________|___________|___________|
+  _____________________________________________________________________________ 
+ |6.|  Range3  negative flow                                                   |
+ |__|__________________________________________________________________________|
+ | R3Dp1  | R3C0   |  R3C1  |  R3C2    |  R3C3    |  R3C4    |  R3C5    | Pmax |
+ | (pres) | (cflo) | (cflo/ | (cflo/   | (cflo/   | (cflo/   | (cflo/   |(pres)|
+ |        |        |   pres)|   pres^2)|   pres^3)|   pres^4)|   pres^5)|      |
+ |________|________|________|__________|__________|__________|__________|______|
+  _________________________________________________________ 
+ |7.| Filter 1 | Filter 2 | Filter 3 | Filter 4 | Filter 5 |
+ |__|   (-)    |   [-]    |   [-]    |   [-]    |   [-]    |
+ |_____________|__________|__________|__________|__________|
+
+
+&-TV Thermostatic vent      
+ __________________________ 
+|1.| *TV<name>  Description|  
+|__| (-)                   |
+|__________________________|
+ _______________________________________________________________________________________________________________________ 
+|2. |Minimum opening size             | Intermediate opening size          | Maximum opening size     | One-way damper? |
+|___|Temperature| Cs         | Exp. n | Temperature  | Cs         | Exp. n | Temperature | Cs Exp. n  | 0=No, 1=Yes     |
+|    (C)        | (kg/s@1Pa) |  (-)   | (C)          | (kg/s@1Pa) | (-)    | (C)         | (kg/s@1Pa) | (-)             |
+|_______________|____________|________|______________|____________|________|_____________|____________|_________________|
+ _________________________________________________________  
+|4.| Filter 1 | Filter 2 | Filter 3 | Filter 4 | Filter 5 | 
+|__|   (-)    |   [-]    |   [-]    |   [-]    |   [-]    | 
+|_____________|__________|__________|__________|__________| 
+
+&-WI       Window / Door
+  __________________________________ 
+ |1.| Prefix and Name | Description |
+ |__|        (-)      | [-]         |
+ |____________________|_____________|
+  __________________________________________________________________ 
+ |2.| Closed:   | Expn | LVO Type     | Lwmax  | Lhmax  |Type 1:    |
+ |__|  Cs       |      | 1=rectang    |        |        | Lextra    |
+ |              |      | 2=horizontal |        |        |Type 2:    |
+ |              |      | pivoting axis|        |        | Axisheight|
+ | (airl/m)     | (-)  | (-)          |  [m]   |  [m]   |   [m]     |
+ |______________|______|______________|________|________|___________|
+  ________________________________________________ 
+ |3.| Open. | Cd  | Width  | Height | Start Height|
+ |__| Fact. |     | Factor | Factor | Factor      |
+ |          |     |  LVO 1 |  LVO 1 |  LVO 1      |
+ |    (-)   | [-] |   [-]  |  [-]   |  [-]        |
+ |__________|_____|________|________|_____________|
+  _________________________________________________________ 
+ |4.| Filter 1 | Filter 2 | Filter 3 | Filter 4 | Filter 5 |
+ |__|   (-)    |   [-]    |   [-]    |   [-]    |   [-]    |
+ |_____________|__________|__________|__________|__________|
+
+
+&-TD       TEST DATA COMPONENT       
+  __________________________________ 
+ |1.| Prefix and Name | Description |
+ |__|        (-)      | [-]         |
+ |____________________|_____________|
+  _______________ 
+ |2.|   RhoI     |
+ |__|  [kg/m3]   |
+ |_______________|
+  ___________________________________________________________ 
+ |3.| Pressure and Flowrate, maximum  6 Lines                |
+ |__| Data Pairs: maximum 18 Pairs                           |
+ | (pres)  | (cflo)  | (pres)  | (cflo)  | (pres)  | (cflo)  |
+ |_________|_________|_________|_________|_________|_________|
+  _________________________________________________________ 
+ |4.| Filter 1 | Filter 2 | Filter 3 | Filter 4 | Filter 5 |
+ |__|   (-)    |   [-]    |   [-]    |   [-]    |   [-]    |
+ |_____________|__________|__________|__________|__________|
+
+
+&-RF       Related Flow COMPONENT
+  __________________________________ 
+ |1.| Prefix and Name | Description |
+ |__|        (-)      | [-]         |
+ |____________________|_____________|
+  ___________________________ 
+ |2.|Unit Flag   |  RhoI     |
+ |__| 1: ?=cflo  |           |
+ |    2: ?=flow  | [kg/m3]   |
+ |_______________|___________|
+  ____________________________________________________________ 
+ |3.| Reference Flowrate and related flowrate, max 6 Lines    |
+ |__| Data Pairs: minimum 3 Pairs, maximum 18 Pairs           |
+ |   (?)    |  (?)    |  (?)    |  (?)    |  (?)    |  (?)    |
+ |__________|_________|_________|_________|_________|_________|
+  _________________________________________________________ 
+ |4.| Filter 1 | Filter 2 | Filter 3 | Filter 4 | Filter 5 |
+ |__|   (-)    |   [-]    |   [-]    |   [-]    |   [-]    |
+ |_____________|__________|__________|__________|__________|
+
+
+&-NET-ZONes
+  ___________________________________________________________________ 
+ |Zone| Name         | Temp |Ref.   |   Volume    | Humid.| Schedule |
+ | ID |              |      | Height|   [m3]      |       |  Name    |
+ |    |              |      |       |   H/D/W     |       |          |
+ | (-)| [-]          |[temp]| [m]   |   [m/m/m]   |[humi] |  [-]     |
+ |____|______________|______|_______|_____________|_______|__________|
+
+
+&-NET-ZL zone-layers     
+  ___________________________________________ 
+ | Zone  | Start  | Temp.  |  Hum.  | Poll.  |
+ | *ID   | Height | Grad   | Grad   | Grad   |
+ |       |        |        | Factor | Factor |
+ | (-)   |  (m)   |[temp/m]|  [1/m] |  [1/m] |
+ |_______|________|________|________|________|
+
+
+&-NET-ZP zone-pollutants
+  ________________________________________________________ 
+ | Zone   |         Pollutant                             |
+ |        |_______________________________________________|
+ | *ID    | Initial      |  Source  |  Sink    |  Decay   |
+ |        | Concentration|          |          |          |
+ | (-)    |    (conc?)   |  [sour?] |  [sink?] |  [1/s]   |
+ |________|______________|__________|__________|__________|
+
+
+&-NET-EXTernal node data
+  _______________________________________ 
+ | External   | Facade     | Outside     |
+ |  Node Name |  Elem Name | Conc Factor |
+ |   (-)      |   (-)      |   [-]       |
+ |____________|____________|_____________|
+
+
+&-NET-ZT zone thermal properties
+  _______________________________________________ 
+ | Zone  | Conduc- | Density | Capacity| Wall    |
+ | *ID   | tivity  |         |         |Thickness|
+ | (-)   | (W/mK)  | (kg/m3) | (J/kg/K)| (m)     |
+ |_______|_________|_________|_________|_________|
+
+
+&-NET-LINks
+  ________________________________________________________________________ 
+ |Link|Type | Zone ID |  Height | Own    | Act.  | 3Dflow | Schedule Name |
+ |    |     |_________|_________| Height | Val.  |   or   |   (10char)    |
+ |    |     |    |    |    |    | Factor |       | Press. |_______________|
+ | ID |Name |From|To  |From|To  |        |       |        | Ref Link Name |
+ |(-) |(-)  |(-) |(-) |[m] |[m] |  [-]   | [-]   | [pres] |     [-]       |
+ |____|_____|____|____|____|____|________|_______|________|_______________|
+
+
+UG chapter 4.3
+
+
+&-SCH-WINdow schedules
+  ____________________________________________ 
+ | Schedule  |    Time             | Opening  |
+ | *WName    |                     | Factor   |
+ |  (-)      |    (-)              |   (-)    |
+ |___________|_____________________|__________|
+
+
+&-SCH-FAN schedules
+  ____________________________________________ 
+ | Schedule  |    Time            | Fan Speed |
+ | *FName    |                    |   Factor  |
+ |  (-)      |    (-)             |    (-)    |
+ |___________|____________________|___________|
+
+
+&-SCH-TEMperature schedules
+  ____________________________________________ 
+ | Schedule  |    Time            |Temperature|
+ | *TName    |                    |           |
+ |  (-)      |    (-)             |  (temp)   |
+ |___________|____________________|___________|
+
+
+&-SCH-HUMidity schedules
+  ____________________________________________ 
+ | Schedule  |    Time            | Humidity  |
+ | *HName    |                    |           |
+ |  (-)      |    (-)             |  (humi)   |
+ |___________|____________________|___________|
+
+
+&-SCH-SINk schedules
+  ____________________________________________ 
+ | Schedule  |    Time            |Sink Factor|
+ | *SName    |                    |           |
+ |  (-)      |    (-)             |   (-)     |
+ |___________|____________________|___________|
+
+
+&-SCH-SOUrce schedules
+  _______________________________________________ 
+ | Schedule  |    Time            | Source Factor|
+ | *QName    |                    |              |
+ |  (-)      |    (-)             |      (-)     |
+ |___________|____________________|______________|
+
+
+&-SCH-OCCupant schedules
+  ______________________________________________________________________ 
+ |Schedule   |    Time            |   Zone  |Activity Level | Number of |
+ |*OCCn      |                    |   ID    |Factor         | Occupants |
+ | (-)       |    (-)             |   (-)   |   [-]         |    [-]    |
+ |___________|____________________|_________|_______________|___________|
+
+
+&-SCH-METeo data
+  _________________ 
+ |1.| Dataset Name |
+ |__|______________|
+  _______________________________________________________________________ 
+ |2.|   Time       |       Wind       |Temperature |Humidity |Barometric |
+ |__|              |__________________|            |         |Pressure   |
+ |                 | Speed  |Direction|            |         |Absolute   |
+ |(-)              |(velo)  |  (deg)  |  (temp)    |[humi]   |  [kPa]    |
+ |_________________|________|_________|____________|_________|___________|
+
+
+&-SCH-POL outdoor concentration data
+  _________________ 
+ |1.|DATASET NAME  |
+ |__|______________|
+  ______________________________________________________________________ 
+ |2.| Time            |     Pollutant  Concentration                    |
+ |__|                 |_________________________________________________|
+ |                    |  No1    |  No2    |  No3    |  No4    |  No5    |
+ |    (-)             | (conc?) | (conc?) | (conc?) | (conc?) | (conc?) |
+ |____________________|_________|_________|_________|_________|_________|
+
+
+&-SCH-MULti schedule data
+  ________________________ 
+ |1.|    Multi Schedule   |
+ |__|    Filename         |
+ |________________________|
+  _________________________________________ 
+ |2.| Schedule1 | Schedule2 | ...  | Sch10 |
+ |__|           |           |      |       |
+ |     Name     |  Name     | Name | Name  |
+ |______________|___________|______|_______|
+
+
+UG chapter 4.4
+
+
+&-CP-BUILding reference height for Cp data
+  __________ 
+ | Height   |
+ | (m)      |
+ |__________|
+
+
+&-CP-VALUes
+  _________________ 
+ |1.|Dataset Name  |
+ |__|______________|
+  __________________________________________________________________________ 
+ |2.| *      | Wind Direction with respect to Building Axis   (first line ) |
+ |__| Facade | Cp Values                       (second and following lines) |
+ | Elem.Name |      |      |      |      |      |      |      |      |      |
+ |           |(deg) |[deg] |[deg] |[deg] |[deg] |[deg] |[deg] |[deg] |[deg] |
+ |   (-)     | (-)  | [-]  | [-]  | [-]  | [-]  | [-]  | [-]  | [-]  | [-]  |
+ |___________|______|______|______|______|______|______|______|______|______|
+
+
+UG chapter 4.5
+
+
+&-ENV-BUIlding related parameters
+  __________________________________________________________ 
+ |1.| Altitude |Angle Building |   Geographic Position      |
+ |__|          |_______________|____________________________|
+ |             |North to Axis  |Latitude +=N | Longitude +=E|
+ |      (m)    |  (deg)        | [deg]   -=S |  [deg]    -=W|
+ |_____________|_______________|_____________|______________|
+
+
+&-ENV-WINd and meteo related parameters
+  _____________________________________________________ 
+ |1.|  Ref. Height  |  Altitude     | Wind Velocity    |
+ |__| for Wind Speed| Meteo Station | Profile Exponent |
+ |                  |               | Meteo Station    |
+ |       (m)        |    (m)        |   (prof)         |
+ |__________________|_______________|__________________|
+  _______________________________________ 
+ |2.| Wind Direction | Wind Velocity     |
+ |__|    Angle       | Profile Exponent  |
+ |                   | Building Location |
+ |       (deg)       |     (prof)        |
+ |___________________|___________________|
+
+
+&-POL-DEScription
+  _______________________________________________ 
+ | No  | Name             | Molar Mass | Decay   |
+ | (-) | (-)              |  (g)       |  [1/s]  |
+ |_____|__________________|____________|_________|
+
+
+&-POL-FICtive source
+  _____________________________________________ 
+ |       | Pollutant |  Fictive   | Dependency |
+ | No    | name      |  Source    | indicator  |
+ | (-)   |   (-)     | [sour?/dep]|   [-]      |
+ |_______|___________|____________|____________|
+
+
+&-OCCUPANt description
+  ____________________________________________________ 
+ |*No | Sex  | Age | Height| Mass| Metabolic| Cigarets|
+ |    |      |     |       |     |  Rate    |         |
+ | (-)| (-)  | (a) |  [m]  | [kg]|  [W]     |  [1/h]  |
+ |____|______|_____|_______|_____|_________ |_________|
+  ________________________________________________________________________________ 
+ | Pol Name| Source strength| Pol Name| Source strength| Pol Name| Source strength|
+ |   [-]   |      [sour?]   |   [-]   |      [sour?]   |   [-]   |      [sour?]   |
+ |_________|________________|_________|________________|_________|________________|

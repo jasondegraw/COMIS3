@@ -1,0 +1,74 @@
+COMIS programming guidelines
+
+Modification of COMIS Source Code
+=================================
+
+Advanced users modifing the COMIS source code have the possibillity 
+to send their modification to EMPA (andreas.weber@empa.ch) EMPA decides 
+whether a modification will be incorporated into the next official 
+release of COMIS. Therefore modifications have to be documented with 
+comment lines in the code at least according to the following 
+restrictions:
+
+For the documentation of modifications made in the COMIS code, 
+specially marked comment lines are used in such a way that:
+
+-	modified sections may easily be found in the code
+-	modified code can easily be inserted into the old code
+-	old code and this comment lines can easily be filtered out 
+        before issuing the code as a new program version/release
+
+The lines are marked with 'C@' in the first two columns, then the 
+short name of the institute and the authors labels, followed by the 
+date (according the time format used in the CIF file) and then the 
+comment text. 
+
+In order to allow for future pre-processing of the code, for normal 
+comment lines only a capital 'C' shall be used in column 1. 
+(Do not use '*' or 'c' !)
+
+To give an example: A change made by EMPA shall be documented in the 
+code as follows:
+
+C@empa aw 2001jan25 This is a comment line for changes in the code.
+
+
+a)	Insert a comment line, starting with C@empa.
+b)	Mark all code becoming invalid with 'CC' in the first two columns.
+c)	Insert new code lines.
+d)	Mark the end of the changed part with C@empa/end (only if modified 
+        section is more than one line).
+e)	Fill in your keywords on the modifications in the routine header 
+        under 'changes'. These text lines shall also start with 'C@empa'.
+f)	Put the latest modification date in the routine header under 'version'.
+ 
+
+
+Subroutine headers
+
+In order to allow for the extraction of the respective headers from 
+source code files, the routines are marked by a special type of comment 
+lines.
+
+Example routine header: 
+
+C+************************************** File name         File name
+Ch************************************************      Begin header
+	SUBROUTINE EXAMPLE (HEADER, OUTP)
+C*************************************************
+C
+C	Purpose:
+C	Module version:
+C	Changes:
+C	Limits:
+C	Pass parameters:
+C
+C	I/O    #   Name     unit      Description
+C	-----------------------------------------------
+C	I      1   Header   [-]       header string
+C	O      2   Outp     [-]       Ouput flag
+C
+C  Error return if: none
+Ch*************************************************    End of header
+
+
