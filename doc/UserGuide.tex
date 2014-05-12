@@ -1,4 +1,4 @@
-\documentclass[10pt]{article}
+\documentclass[10pt]{book}
 \usepackage{amsmath}
 \usepackage{mathptmx}
 \usepackage{textcmds}
@@ -13,6 +13,7 @@
 \CustomVerbatimEnvironment{vs3file}{Verbatim}{xleftmargin=5mm}
 \CustomVerbatimEnvironment{results}{Verbatim}{xleftmargin=5mm}
 \begin{document}
+\frontmatter
 \begin{titlepage}
 %\begin{center}
 %\begin{Huge}
@@ -49,7 +50,7 @@ Energierechengruppe\\
 Energiesysteme / Haustechnik
 
 \end{titlepage}
-\section{PREFACE}
+\chapter{PREFACE}
 The COMIS workshop (Conjunction of Multizone Infiltration Specialists) was a joint research effort to develop a multizone infiltration model. This workshop (October 1988 -September 1989) was hosted by the Energy Performance of Buildings Group at Lawrence Berkeley Laboratory's Applied Science Division. The task of the workshop was to develop a detailed multizone infiltration program taking crack flow, HVAC-systems, single-sided ventilation and transport mechanism through large openings into account. The agenda integrated all participants' contributions into a single model containing a library of modules. The user-friendly program is aimed at researchers and building professionals. 
 
 The work was accomplished not by investigating numerical description of physical phenomena but by reviewing the literature for the best suitable algorithm. The numerical description of physical phenomena clearly was a task of IEA-Annex 20 ``Air Flow Patterns in Buildings'' which finished in September 1991. In Annex 23 ``Multizone Air Flow Modeling'', which was adopted by the IEA-Energy Conservation in Buildings and Community Systems program in 1992, COMIS has been evaluated by means of tracer gas measurements, wind tunnel data, intermodel comparison, and comparison with analytical solutions. 
@@ -58,7 +59,7 @@ From the time of its announcement in December 1986 COMIS was well received by th
 
 Even though this kind of co-operation is well known in other fields of research, e.g., high energy physics, in the field of building physics it is a new approach. 
 
-The COMIS User Guide contains an overview of the COMIS project as well as hints which will be useful in getting through the input and calculation procedure. The handbook comes in loose-leaf form so as to be easily updated according to the progress of the model development. Please note, that the COMIS User Guide reflects the construction of the input .le needed to run the calculation program COMVEN. There are several user interfaces available to create the input .le and to run the program. Each interface comes with its own user guide.
+The COMIS User Guide contains an overview of the COMIS project as well as hints which will be useful in getting through the input and calculation procedure. The handbook comes in loose-leaf form so as to be easily updated according to the progress of the model development. Please note, that the COMIS User Guide reflects the construction of the input .le needed to run the calculation program COMVEN. There are several user interfaces available to create the input file and to run the program. Each interface comes with its own user guide.
 \\
 
 Helmut E. Feustel\\
@@ -66,7 +67,7 @@ COMIS Co-ordinator and Annex 23 Operating Agent\\
 Berkeley, California\\
 August 31, 1997\\
 
-\section{Preface to version 3.1} 
+\section*{Preface to version 3.1} 
 This present version of the COMIS User Guide is the result of a major revision undertaken by EMPA. The update has gone together with an effort to debug and streamline the COMIS code, and to make code and User Guide as consistent as possible. 
 
 The changes from COMIS version 3.0 are summarized in chapter 1.4 
@@ -78,7 +79,7 @@ Viktor Dorer, Anne Haas and Andreas Weber
 Empa Duebendorf, Switzerland 
 January 24, 2001 
 
-\section{Preface to version 3.2}
+\section*{Preface to version 3.2}
 The new graphical user interface Simulation Studio developed for COMIS by CSTB was the incitement to release a new version of COMIS. The development and improvement of the COMIS code during the last five years since COMIS 3.1 has been released require also a new edition of the User Guide. 
 
 A short description of the Simulation Studio is given in chapter 2.5 and in detail in the Simulation Studio User Guide. The changes of the COMIS code since version 3.1 are summarized in chapter 1.4 
@@ -94,8 +95,8 @@ Empa Duebendorf, Switzerland
 November 1, 2005
 
 \section{CONTENTS}
-
-\section{INTRODUCTION}
+\mainmatter
+\chapter{INTRODUCTION}
 Airflow models can be divided into two main categories, single-zone models and multizone models. Single-zone models assume that the structure can be described by a single, well-mixed zone. The major application for this model type is the single-storey, single family house with no internal partitions (e.g., all internal doors are open). As a large number of buildings, however, have floor plans that would characterize them more accurately as multizone structures, more detailed models, taking internal partitions into account, have been developed.
 
 Even before the advent of physical single-zone models a number of computer models had been developed to calculate the air flow distribution in multizone buildings. In these models the building is described by a set of zones interconnected by flow paths (links). Each zone (node) represents a space with uniform pressure conditions inside or outside the building and the interconnections correspond to impediments to air flow. The network models are usually based on the conservation of mass in each of the zones in the building.
@@ -106,7 +107,7 @@ Multizone airflow network models deal with the complexity of flows in a building
 
 A literature review undertaken by Feustel and Kendon [17] revealed 26 papers describing 15 different multizone airflow models which had been developed in eight countries. A follow up review [13] carried out in 1992 produced additional information about the status of network models. One of the first to be found was BSRIA's model LEAK by Jackman, which was published in 1970 [21]. Since that time many more models have been developed but many of them have been written as research tools. One of the latest developments in multizone air flow and contaminant transport modeling is the COMIS model [15, 16] which is described here in detail.
 
-\subsection{The COMIS Project}
+\section{The COMIS Project}
 
 Within the Energy Performance of Buildings Group at the Lawrence Berkeley Laboratory LBL (Berkeley, USA), after reviewing the available multizone infiltration models, it was clear that conventional models are not designed to be upgraded to take additional types of flow into account or to improve their usability. Therefore, it was planned to design and develop a model which should contain all the missing features. From the beginning, it was realized that this model development needed a lot of expertise and, equally important, manpower, which would exceed the resources at LBL. 
 
@@ -116,12 +117,12 @@ This one year COMIS workshop (Conjunction Of Multizone Infiltration Specialists)
 
 In parallel, a user interface, developed on FORTRAN 77 basis like the COMVEN code, and a result graphical postprocessor programme on LOTUS spreadsheet basis were developed.
 
-\subsection{The original COMIS Model (COMIS Version 1.0)}
+\section{The original COMIS Model (COMIS Version 1.0)}
 
-\subsubsection{Input}
+\subsection{Input}
 Special emphasis was given to the input/output routines so that the program should be not only ``user-tolerant'' but ``user-friendly''. It is being developed so it can be used either as a ``stand-alone ventilation model'' or as an ``ventilation module'' of a building simulation program. The input/output procedure is therefore being developed in such a way that either the COMIS in­put/output modules can be used or only the input/output interface. This makes it possible for the user to connect the program with other software (e.g., the building and systems simulations code TRNSYS).
 
-\subsubsection{Flow through Building Components}
+\subsection{Flow through Building Components}
 Crack flow, large openings and mechanical ventilation systems can be modelled by COMIS. Furthermore, additional flows which do not influence the pressure distribution in the network in a major way, i.e., simultaneous two way flow at large openings and wind turbulence effect at single-sided windows etc., were studied. Air flow rates through doorways, windows and other common large openings are significant ways in which air, pollutants and thermal energy are transferred from one zone of a building to another.
 
 However, in a previous review of multizone infiltration models, none of the described codes were able to solve this problem in any way other than to divide the large opening into a series of small ones described by crack flow equations.
@@ -158,7 +159,7 @@ The pressure loss curve for flow controller is expressed by equations based on d
 
 There are other components connected to the HVAC-Systems which cause dynamic pressure loss, e.g., air filters, heating or cooling coils, different types of junctions, etc. Models for these components are not included in the code yet and have to be considered by defining a dynamic pressure loss factor.
 
-\subsubsection{Solver}
+\subsection{Solver}
 
 Calculating the infiltration and ventilation flow rates requires the solution of a non-linear system of equations. The main task has been to find an efficient solving method [10], [20].
 
@@ -166,7 +167,7 @@ A building is basically modeled by pressure nodes that are interconnected with a
 
 The starting point is the Newton-Raphson method, with derivatives, operating on a node-oriented network which, in most cases, quickly brings about the convergence of the system of equations. The method has been modified to avoid occasional convergence problems when working with power functions. Fortunately, the origin of the convergence problems is well understood. The solving method works on the flow balance equations and not on the flow equations. If one or several of these balance equations have an exponent close to one-half, the Newton-Raphson method will not work well, due to the nature of the procedure, in finding the next approximation. One instance when this happens is when a leakage opening with a flow exponent of one-half is predominant in one zone. In this case the flow balance equation will also have an exponent close to one-half. An under-relaxation will increase the convergence velocity and bring us to the solution. In principle it is a question of finding an appropriate relaxation coefficient.
 
-\subsubsection{Wind Pressures}
+\subsection{Wind Pressures}
 
 Another important task in the COMIS workshop was to find a method of determining the wind pressure distribution for a building according to measured data from available literature. This allows building designers to work with the COMIS model even if wind tunnel results are not available for the building under consideration. The pressure distribution around a building is usually described by a dimensionless pressure coefficient (Cp), which is the ratio of the surface pressure and the dynamic pressure in the undisturbed flow pattern, measured at a reference height. From experience we know that wall-averaged values of Cp usually do not match the accuracy required for air flow calculation models.
 
@@ -174,7 +175,7 @@ In order to calculate the Cp-distribution for buildings we provide a method base
 
 The work on Cp-value calculation has been continued later in the AIOLOS project of the European Commission and resulted in the CPCALC+ code [3].
 
-\subsubsection{Products of the COMIS workshop}
+\subsection{Products of the COMIS workshop}
 
 The major products of the COMIS workshop are: 
 
@@ -207,7 +208,7 @@ Results of these subtasks are addressed to researchers and consultants and contr
 
 A close cooperation was envisaged, mainly with regard to state-of-the art reviews, data collection, coordination of work, e.g. defining cases for evaluation purposes with other pertinent projects. The Air Infiltration and Ventilation Centre acted as a vehicle for disseminating the results of this particular Annex. A data base for evaluation purposes was prepared by AIVC and the Centre has collected wind pressure data and leakage data. Algorithms developed by Annex 20 were incorporated into the modelling system. Data obtained for evaluation purposes by this Annex was used for subtask 3. The overlapping in time with Annex 20 guaranteed a sufficient transfer of knowledge.
 
-\subsubsection{Products of IEA Annex 23}
+\subsection{Products of IEA Annex 23}
 
 The major products of IEA Annex 23 are:
 
@@ -226,9 +227,9 @@ Information about COMIS 3.0 can be found under http://epb1.lbl.gov/comis/.
 
 COMIS 3.0 version is available from the web under http://software.cstb.fr, together with a handbook for the user interface and with a tutorial. 
 
-\subsection{Subsequent Versions of COMIS}
+\section{Subsequent Versions of COMIS}
 
-\subsubsection{COMIS version 3.1}
+\subsection{COMIS version 3.1}
 
 In 1999, Empa has officially taken over the maintenance of the COMIS source code from LBNL. LBNL will continue to contribute to the further development of COMIS, but LBNL is not directly involved in the maintenance task anymore. CSTB remains responsible for the IIsibat user interface.
 
@@ -245,7 +246,7 @@ The update would not have been as profound and extensive without the valuable co
 \item Werner Keilholz (CSTB, France)
 \end{itemize}
 
-\subsection{Changes in COMIS version 3.1}
+\section{Changes in COMIS version 3.1}
 
 New features, improved features and features which were implemented in the code, but were not yet documented in the User Guide:
 
@@ -336,7 +337,7 @@ The following keywords are not needed any more
 \item\verb|&-NET-AIR|
 \end{itemize}
 
-\subsubsection{Changes in COMIS version 3.2}
+\section{Changes in COMIS version 3.2}
 
 User Interface:
 
@@ -435,7 +436,7 @@ The results of the very first timestep are not correctly considered in Histogram
 Convergency problems with T-junctions. 
 
 
-\subsubsection{COMIS 3.2 Documents}
+\subsection{COMIS 3.2 Documents}
 
 Valid COMIS documents after successful installation in the directory `\textbackslash comis32\textbackslash Documentation':
 
@@ -455,11 +456,17 @@ Headers.txt  Sample headers for all keywords;
 
 identical with the ones used throughout this user guide
 
-\subsubsection{How to get COMIS 3.2}
+\subsection{How to get COMIS 3.2}
 
 The new COMIS version is available from CSTB, Sophia Antipolis, France. For more information, see
 
 http://software.cstb.fr
+
+\chapter{GETTING STARTED}
+
+\chapter{BASIC CONCEPTS}
+
+\chapter{DATA SECTIONS}
 
 
 \end{document}
