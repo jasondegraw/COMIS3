@@ -12,6 +12,7 @@
 \CustomVerbatimEnvironment{commandline}{Verbatim}{xleftmargin=5mm}
 \CustomVerbatimEnvironment{vs3file}{Verbatim}{xleftmargin=5mm}
 \CustomVerbatimEnvironment{results}{Verbatim}{xleftmargin=5mm}
+\usepackage{parskip}
 \begin{document}
 \frontmatter
 \begin{titlepage}
@@ -465,6 +466,35 @@ http://software.cstb.fr
 \chapter{GETTING STARTED}
 
 \chapter{BASIC CONCEPTS}
+
+\section{Input Data Structure}
+
+Input data in the CIF-file is arranged according to the following classification:
+ 
+Data group: Data groups are Project, Network, Schedules, Cp-Values, Environment, Pollutant and Occupant (see figure 3.1). Groups are used to improve the user's overview over the necessary data, but the grouping of data need not be reflected in the structure of the input file. The data sections are presented by group in this guide. 
+
+Data section: The description of the simulation model in the input file is divided into data sections. The beginning of each section is characterized by a specific keyword. Keywords are characterized by having an \verb|&| in the first column (example: \verb|&-PR-IDENTification, &-CR|). The structure of data sections is shown for the example in figure 3.2. 
+
+To run a simulation, at minimum one air flow component (from data sections \verb|&-CR| on page 62 to \verb|&-TD| on page 89), one zone (data section \verb|&-NET-ZON| on page 94) and one link (data section \verb|&-NET-LIN| on page 102) must be defined. An example is given in Appendix A.1 on page 132.
+
+Data sections not needed for the actual simulation or consisting of optional parameters only may be entirely omitted. If necessary, internal default values are used to complete the input (e.g. control parameters, ambient conditions, type of output).
+
+Data block: A data section consists of one or more data blocks. A data block has an optional header and can have several data lines.
+
+NOTE Data blocks in a data section or data set must be given in the sequence described by the order of the corresponding headers in section 4 in this guide.
+Header of data block: For each data block, a header may be given in the input file. The header usually contains information on the data required in the data block: parameter names, units and possibly some further descriptions. This allows for the content of the input file to be self-explanatory. Headers are surrounded by vertical and horizontal bars.
+
+A header starts with two blanks followed by a row of underscores `\_\_...'. Headers are, preferably, placed close under the keyword.
+
+Headers are provided by the Simulation Studio user interface coming with the official distribution of COMIS. The COMISExcel uses headers, too. See section ``COMIS User Interfaces'' on page 24 for more information. Headers (but not the keywords!) may be omitted by the user while establishing an input file using the screen editor. The headers shown in the keyword description later in this guide are stored in the COMIS simulation engine documents directory in a file called `HEADERS.TXT'.
+
+The units reported in these headers are identified either
+\begin{itemize}
+\item by a 4-character name of a unit set in section \verb|&-PR-UNITS| or in the set-file, if the unit may beset by the user;
+\item by a conventional unit name, if the unit cannot be changed;
+\item by a dash, if the quantity has no unit;
+\item or by a question mark, if quantities with eventually different units are possible (example: histogram).
+\end{itemize}
 
 \chapter{DATA SECTIONS}
 
