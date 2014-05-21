@@ -9,9 +9,16 @@
 \usepackage[colorlinks=true,linkcolor=linkblue]{hyperref}
 \definecolor{linkblue}{rgb}{0,0,1}
 \usepackage{fancyvrb}
+\usepackage{cprotect}
 \CustomVerbatimEnvironment{commandline}{Verbatim}{xleftmargin=5mm}
-\CustomVerbatimEnvironment{vs3file}{Verbatim}{xleftmargin=5mm}
+\CustomVerbatimEnvironment{inputfile}{Verbatim}{xleftmargin=5mm}
 \CustomVerbatimEnvironment{results}{Verbatim}{xleftmargin=5mm}
+%\newenvironment{note}{\makebox[1.5cm][l]{NOTE:}\hangindent=1.5cm}{}
+%\newenvironment{note}{\makebox[1.5cm][l]{NOTE:}\everypar={\hangindent=1.5cm}}{\par}
+\newcommand{\hangingpar}[2]{\hangindent#1\hangafter#2\noindent}
+\newcommand{\note}[1]{\makebox[1.5cm][l]{NOTE}\hangindent=1.5cm{#1}}
+\newenvironment{hangingpars}[2]{\makebox[1.5cm][l]{NOTE:}\setlength{\parindent}{0pt}\everypar={\hangingpar{#1}{#2}}}{\par}
+%\newenvironment{note}{\begin{hangingpars}{1.5cm}{1}}{\end{hangingpars}}
 \usepackage{parskip}
 \begin{document}
 \frontmatter
@@ -95,7 +102,8 @@ Andreas Weber
 Empa Duebendorf, Switzerland 
 November 1, 2005
 
-\section{CONTENTS}
+%\chapter{CONTENTS}
+\tableofcontents
 \mainmatter
 \chapter{INTRODUCTION}
 Airflow models can be divided into two main categories, single-zone models and multizone models. Single-zone models assume that the structure can be described by a single, well-mixed zone. The major application for this model type is the single-storey, single family house with no internal partitions (e.g., all internal doors are open). As a large number of buildings, however, have floor plans that would characterize them more accurately as multizone structures, more detailed models, taking internal partitions into account, have been developed.
@@ -481,8 +489,8 @@ Data sections not needed for the actual simulation or consisting of optional par
 
 Data block: A data section consists of one or more data blocks. A data block has an optional header and can have several data lines.
 
-NOTE Data blocks in a data section or data set must be given in the sequence described by the order of the corresponding headers in section 4 in this guide.
-Header of data block: For each data block, a header may be given in the input file. The header usually contains information on the data required in the data block: parameter names, units and possibly some further descriptions. This allows for the content of the input file to be self-explanatory. Headers are surrounded by vertical and horizontal bars.
+\note{Data blocks in a data section or data set must be given in the sequence described by the order of the corresponding headers in section 4 in this guide.
+Header of data block: For each data block, a header may be given in the input file. The header usually contains information on the data required in the data block: parameter names, units and possibly some further descriptions. This allows for the content of the input file to be self-explanatory. Headers are surrounded by vertical and horizontal bars.}
 
 A header starts with two blanks followed by a row of underscores `\_\_...'. Headers are, preferably, placed close under the keyword.
 
@@ -497,6 +505,127 @@ The units reported in these headers are identified either
 \end{itemize}
 
 \chapter{DATA SECTIONS}
+
+In this chapter all input parameters are described in detail. The description of the parameters is structured according to data groups: 
+\begin{itemize}
+\item Problem description 
+\item Network description 
+\begin{itemize}
+\item Air flow components, Zones, Links 
+\end{itemize}
+\item Schedules 
+\item Cp-Values 
+\item Environment description 
+\item Pollutant description 
+\item Occupant description 
+\end{itemize}
+
+It is recommended to follow this sequence of data groups and sections when establishing an input file. If another data section is required before a certain keyword may occur, this is stated in the description of the respective keyword. 
+
+The following sections will show the headers, some example inputs, and explanations of the input. The inputs are shown in typewriter characters. 
+
+\section{Project Description}
+\subsection{\&-PR-IDEN tification (Project Identification)}
+\begin{inputfile}
+&-PR-IDENtification
+  ________________ 
+ |1.|Problem Name |
+ |__|             |
+ |________________|
+  ________________ 
+ |2.|Version Name |
+ |__|             |
+ |________________|
+\end{inputfile}
+Example This is an example of the project name. 
+You may write text here to describe the project case. 
+The maximum number of lines is 10. 
+
+| 
+24-June-89 
+
+\note{At least one header line, i.e. one line with first non-blank character `|' must be between description of problem and version name. Otherwise version name is not recognized and the contents of the line is appended to problem name.}
+ 
+Description: 
+
+Parameter Description Default value Input format, range 
+
+Problem Name  short description of project / simulation model  `'  String 800 char  
+(10 lines with  
+max. 79 characters  
++crlfeach)  
+Version Name  version name, date, etc.  `'  String 160 char  
+
+\subsection{\&-PR-UNITS (Project Units)}
+\begin{inputfile} 
+&-PR-UNITS
+  _______________________________ 
+ | Unit Conversion Definitions   |
+ | Name    |  Input   |  Output  |
+ |_________|__________|__________|
+\end{inputfile}
+
+Example 1  pres  Pa  Pa-OSR  
+temp  C  F  
+humi  g/kg  g/kg  
+INPUT  
+cflo  m3/s  
+prof  alpha  
+OUTPUT  
+mean  s  
+
+Example 2 	\verb^sour_co2 kg/s mg/s sour_h2o kg/s mg/s sour_odour olf olf conc ppm ppm conc g/kg g/kg conc decipol decipol^
+
+If the keyword INPUT is seen, the units in the following lines are only used for input. Conversely, if the word OUTPUT is seen, the units are used only for output. 
+
+If neither INPUT nor OUTPUT is seen, the first value following the unit identifier is used for input and the second for output. 
+
+The wind velocity profile ``unit'' is available for input only (no profile output).
+
+The air change rate (ach), mean age of air (meanage) and energy units are only available for output and must follow the OUTPUT keyword. All the other units may be used for both input and output conversions.
+
+The data section \verb|&-PR-UNITS| can be used more than once. This allows having different units in different data sections within one input file. The units declared by \verb|&-PR-UNITS| are valid for all data sections following these declarations until the end of the input file or until another unit declaration is encountered that changes the units defined explicitly before.
+
+Description:  
+Parameter  Description  
+Name Input  identifier for physical quantity; also used as reference in the headers to identify the corresponding quantities; or: keyword INPUT or OUTPUT, if only one unit is given unit for input values  
+Output  unit for output values  
+
+Default value - 
+see table see table Input format, range 
+string element from table below, 4 significant characters; or INPUT or OUTPUT 
+string element from table string element from table 
+
+However, it is recommended to use the unit conversion only once per input file. It is also advisable to place the data section \verb|&-PR-UNITS| as early as possible.
+
+The \verb|&-PR-UNITS| input is the preferable method of defining the unit conversions because all information on the simulation situation is fully contained in the input file. It is not recommended to use the COMIS.SET file to define the units (see also appendix C). If units are set in the SET-file, it is impossible to tell which input units were used unless this file is kept with the project files, too.
+
+The values of the quantities listed in the table below can be converted from input units to COMIS internal units, or from COMIS internal units to output units. The internal units are at the same time the default units for input and output. 
+%Name Quantity AIRLeakage Air Leakage 
+%FLOW Air Flow PRESsure Ventilation Pressure 
+%TEMPerature Temperature HUMIdity Humidity SOURce Pollutant Source SINK Pollutant Sink CONCentration Pollut. Concentration 
+%VELOcity Wind Speed Input option only CFLOw Component Flow PROFile Pro.le Output option only ACHAnge Air Change Rate MEANage Mean Age of Air ENERgy Energy Default Unit Cm(kg/s@1Pa) 
+%kg/s Pa 
+%C g/kg kg/s kg/s kg/kg 
+%m/s 
+%m3/s alpha 
+%1/h h KWh Other possibilities kg/h@1Pa, kg/s@10Pa, kg/h@10Pa, dm3/s@1Pa, m3/s@1Pa, m3/h@1Pa, dm3/s@10Pa, m3/s@10Pa, m3/h@10Pa, ELA4, ELA10 g/s, g/h, kg/h, m3/s, dm3/s, dm3/h, m3/h mmH2O, mmHg, inH2O, inHg, hPa, kPa option -OSR to each unit K,F, Ra,Re kg/kg, mass%, %rh g/s, g/h, kg/h, mg/s, ug/s a,olf b g/s, g/h, kg/h, mg/s, ug/s a,olf b g/kg, mg/kg, ug/kg, m3/kg, dm3/kg, ml/kg, ul/kg, mass%, ppm, ppb, part (any rational combination of g, kg, mg, ug, m3, dm3, ml, and ul are possible, 
+%e.g. mg/g, dm3/mg) a, decipol b cm/s, kt, ft/min, km/h, mile/h 
+%g/s, g/h, kg/s, kg/h, dm3/s, m3/h, dm3/h alpha, z0 
+%1/s s J 
+%a 
+%umeans µ 
+%b units for the special pollutant named ODOUR 
+%
+
+\note{In the headers all quantities are given with the corresponding unit identifiers to indicate the used input units. For quantities which have only one valid unit, the prescribed unit is given explicitly in the corresponding header. For example, input values for barometric pressure always have to be in kPa. There is also no choice for length input. Depending on the quantity, the unit is always m or mm.}
+
+\note{There is a option `-OSR' which may be appended to the pressure unit (see example). With this option, the outside stack pressure is taken as pressure reference. For further details, see notes on pressure reference on page 33.}
+
+%\makebox[1.5cm][l]{NOTE:}\hangindent=1.5cm Different units for source, sink and concentration may be defined for each pollutant. This is done by entering multiple lines for \verb|sour|, \verb|sink| and \verb|conc| as shown in example 2. As only four characters of the name are used to identify the physical quantity, the name may be longer e.g. to indicate for which pollutant the unit is used. The first unit definition will be used for pollutant number 1, the second for pollutant number 2 and so on. If more than one pollutant unit is entered, but fewer than the number of pollutants defined, then the last line will be used for the unit conversion for the remaining pollutants. If only one line is entered, the same units will be used for all pollutants (so COMIS 3.1 is backwardly compatible with older CIF-files).
+\cprotect\note{Different units for source, sink and concentration may be defined for each pollutant. This is done by entering multiple lines for \verb|sour|, \verb|sink| and \verb|conc| as shown in example 2. As only four characters of the name are used to identify the physical quantity, the name may be longer e.g. to indicate for which pollutant the unit is used. The first unit definition will be used for pollutant number 1, the second for pollutant number 2 and so on. If more than one pollutant unit is entered, but fewer than the number of pollutants defined, then the last line will be used for the unit conversion for the remaining pollutants. If only one line is entered, the same units will be used for all pollutants (so COMIS 3.1 is backwardly compatible with older CIF-files).}
+
+\note{The units `olf' for source strength and `decipol' for concentration must be used for the pollutant `ODOUR'. They must be defined for input and output. They must not be used for other pollutants.}
 
 
 \end{document}
