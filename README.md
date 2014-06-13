@@ -51,6 +51,11 @@ The official COMIS code was handed over to the Swiss agency EMPA in
 collaboration between EMPA and CSTB. It was released as an open 
 source project in 2011.
 
+License
+-------
+
+The program is licensed under the LGPL version 3 (or greater).
+
 About This Version
 ------------------
 
