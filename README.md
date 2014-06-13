@@ -67,5 +67,7 @@ and there is one TRNSYS-related file:
 * comv-trn.for: TYPE157 subroutine
 
 These files are kept but are not compiled. The command line parser in
-comv-unx.for seems to be compatible with gfortran, so that one is used.
+comv-unx.for seems to be compatible with gfortran, so that one is used. A 
+(hopefully) fairly standard Makefile is included as well as the start of a
+true CMake-based build.
 
