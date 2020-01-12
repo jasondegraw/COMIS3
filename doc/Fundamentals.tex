@@ -1,0 +1,433 @@
+\documentclass[12pt]{report}
+\usepackage{titlesec}
+\usepackage{cite}
+
+%\setlength{\parindent}{0cm}
+%\setlength{\parskip}{1em}
+
+%\setcounter{tocdepth}{3}
+%\setcounter{secnumdepth}{3}
+
+%\titleclass{\subsubsubsection}{straight}[\subsection]
+%
+%\newcounter{subsubsubsection}[subsubsection]
+%\renewcommand\thesubsubsubsection{\thesubsubsection.\arabic{subsubsubsection}}
+%\renewcommand\theparagraph{\thesubsubsubsection.\arabic{paragraph}} % optional; useful if paragraphs are to be numbered
+%
+%\titleformat{\subsubsubsection}
+%  {\normalfont\normalsize\bfseries}{\thesubsubsubsection}{1em}{}
+%\titlespacing*{\subsubsubsection}
+%{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+%
+\makeatletter
+\newcommand\subsubparagraph{\@startsection{paragraph}{5}{\z@}%
+                                      %{3.25ex\@plus 1ex\@minus .2ex}
+                                      %{1.5ex \@plus .2ex}
+                                      {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                      {1.5ex \@plus .2ex}
+                                      {\normalfont\normalsize\bfseries}}
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+                                      {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                      {1.5ex \@plus .2ex}
+                                      {\normalfont\normalsize\bfseries}}
+\renewcommand\subparagraph{\@startsection{subparagraph}{5}{\z@}%
+                                         {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                         {1.5ex \@plus .2ex}
+                                         {\normalfont\normalsize\bfseries}}
+%%\renewcommand\paragraph{\@startsection{paragraph}{5}{\z@}%
+%%  {3.25ex \@plus1ex \@minus.2ex}%
+%%  {-1em}%
+%%  {\normalfont\normalsize\bfseries}}
+%\renewcommand\subparagraph{\@startsection{subparagraph}{6}{\parindent}%
+%  {3.25ex \@plus1ex \@minus .2ex}%
+%  {-1em}%
+%  {\normalfont\normalsize\bfseries}}
+%\def\toclevel@subsubsubsection{4}
+%\def\toclevel@paragraph{5}
+%\def\toclevel@paragraph{6}
+%\def\l@subsubsubsection{\@dottedtocline{4}{7em}{4em}}
+%\def\l@paragraph{\@dottedtocline{5}{10em}{5em}}
+%\def\l@subparagraph{\@dottedtocline{6}{14em}{6em}}
+\makeatother
+
+\setcounter{secnumdepth}{6}
+\setcounter{tocdepth}{6}
+
+\begin{document}
+\begin{titlepage}
+\begin{flushright}
+LBL-28560
+\end{flushright}
+\vspace{0.75in}
+\begin{center}
+\Huge
+\textbf{COMIS Fundamentals}
+\vspace{1in}
+
+\Large
+Edited by:
+
+Helmut E. Feustel and Alison Rayner-Hooson
+
+\vspace{0.75in}
+
+Applied Science Division\\
+Lawrence Berkeley Laboratory\\
+Berkeley, CA 94720
+
+\vspace{0.5in}
+
+May 1990
+\end{center}
+\end{titlepage}
+\begin{center}
+\textbf{DISCLAIMER}
+\end{center}
+
+\noindent~This report was prepared as an account of work sponsored by an
+agency of the United States Government. Neither the United States
+Government nor any agency Thereof, nor any of their employees,
+makes any warranty, express or implied, or assumes any legal
+liability or responsibility for the accuracy, completeness, or
+usefulness of any information, apparatus, product, or process
+disclosed, or represents that its use would not infringe privately
+owned rights. Reference herein to any specific commercial product,
+process, or service by trade name, trademark, manufacturer, or
+otherwise does not necessarily constitute or imply its endorsement,
+recommendation, or favoring by the United States Government or any
+agency thereof. The views and opinions of authors expressed herein
+do not necessarily state or reflect those of the United States
+Government or any agency thereof.
+\newpage
+\begin{flushleft}
+{\Huge
+\textbf{COMIS - \textit{Fundamentals}}
+}
+
+\vspace{0.25in}
+\textbf{Edited by: Helmut E. Feustel and Alison Rayner-Hooson}
+\vspace{0.25in}
+
+{\Large
+\textbf{Francis Allard}\\
+France
+
+\textbf{Viktor B. Dorer}\\
+Switzerland
+
+\textbf{Helmut E. Feustel}\\
+USA
+
+Eduardo Rodriguez Garcia\\
+Spain
+
+Mario Grosso\\
+Italy
+
+Magnus K. Herrlin\\
+Sweden
+
+Liu Mingsheng\\
+Peoples Republic of China
+
+Hans C. Phaff\\
+Netherlands
+
+Yasuo Utsumi\\
+Japan
+
+Hiroshi Yoshino\\
+Japan
+}
+
+\vspace{0.25in}
+ For current addresses please check the Appendix
+ \end{flushleft}
+
+\newpage
+\noindent{\Large\textbf{Foreword}}\\
+\noindent
+The COMIS workshop (Conjunction of Multizone Infiltration Specialists) was a
+joint research effort to develop a multizone infiltration model. This workshop
+(October 1988 - September 1989) was hosted by the Energy Performance of
+Buildings Group at Lawrence Berkeley Laboratory's Applied Science Division.
+The task of the workshop was to develop a detailed multizone infiltration program
+taking crack flow, HVAC-systems, single-sided ventilation and transport mechanism through large openings into account. This work was accomplished not by
+investigating into numerical description of physical phenomena but by reviewing
+the literature for the best suitable algorithm. The numerical description of physical phenomena is clearly a task of EA-Annex XX ``Air Flow Patterns in Buildings'', which will be finished in September 1991. Multigas tracer measurements
+and wind tunnel data will be used to check the model. The agenda integrated all
+participants' contributions into a single model containing a large library of
+modules. The user-friendly program is aimed at researchers and building professionals.
+From its announcement in December 1986, COMIS was well received by the
+research community. Due to the internationality of the group, several national
+and international research programmes were co-ordinated with the COMIS
+workshop. Colleagues from France, Italy, Japan, The Netherlands, People's
+Republic of China, Spain, Sweden, Switzerland, and the United States of America
+were working together on the development of the model.
+Even though this kind of co-operation is well known in other fields of research,
+e.g., high energy physics; for the field of building physics it is a new approach.
+The COMIS Fundamentas contains an overview about infiltration modelling as
+well as the physics and the mathematics behind the COMIS model.
+
+\begin{flushleft}
+Helmut E. Feustel\\
+COMIS Co-ordinator\\
+Berkeley, California\\
+January 31,1990\\
+\end{flushleft}
+
+\newpage
+\begin{center}
+%{\Large\textbf{CONTENTS}}
+\end{center}
+\tableofcontents
+
+Nomenclature
+\chapter{Infiltration Modelling}
+\section{Introduction}
+\section{History of Infiltration Modelling}
+\section{Multizone Infiltration Models}
+\section{Review}
+\section{Conclusion}
+\chapter{Physical Fundamentals}
+\section{Pressure Distnbutlon}
+\subsection{Introduction}
+\subsection{Wind Pressure}
+\subsubsection{Modelling Wind Pressure Distribution}
+\paragraph{Reference Data}
+\paragraph{Methodology}
+\paragraph{Analysis}
+\paragraph{Calculation Model}
+\paragraph{Outlook}
+\subsection{Thermal Buoyancy}
+\section{Air Flows Through Openings}
+\subsection{Air Flow through Cracks}
+\subsubsection{Introduction}
+\subsubsection{Flow Equation}
+\paragraph{Duct Flow}
+\paragraph{Crack Flow}
+\paragraph{Temperature Influence on Crack Flow}
+\paragraph{Equation Form Influence}
+\paragraph{Regression}
+\paragraph{Temperature Equation}
+\subparagraph{Classification of Crack Forms}
+\subparagraph{Door or Single-Pane Window}
+\subparagraph{Prime-and-Storm Window}
+\subparagraph{Walls}
+\subsubparagraph{Tiny Cracks}
+\subsubparagraph{Wide Cracks}
+\subsubsection{Conclusion}
+\subsection{Air Flow through Large Openings}
+\subsubsection{Introduction}
+Airflow through doorways, windows and other large openings are a significant
+way in which air, pollutants and thermal energy are transferred from one zone of
+a building to another or to the outside. In a previous review of multizone infiltration models made in 1985, Feustel and Kendon \cite{feustel_kendon_1985} pointed out that no code was
+able to solve this problem other than dividing the large opening into a series of
+small ones described by crack flow equations.
+
+The subject of air flows through large openings in fact includes a large number of
+different problems ranging from steady gravitational flows to fluctuating flows
+due to wind turbulence, and including recirculating flows caused by boundary
+layer effects in a thermally driven cavity.
+
+COMIS’ contribution has been to describe the various physical problems, review
+the solutions already developed in the literature and put forward a general proposal dealing with most of the large openings included in the pressure network
+modeling of a multizone building \cite{allard_utsumi_1992}.
+
+\subsubsection{Short Review of Literature}
+Air may flow differently at the top of a doorway than at the bottom. This bidirectional flow, characteristic of large opening behavior, has a variety of causes
+which can be classified broadly in two categories - those which induce steady
+flow by virtue of their mean value and those whose effect is due to their fluctuating nature. 
+
+\paragraph{Steady Flows through Large Openings}
+The first category includes the effects of mean wind velocity, the gravitational
+flows due to density gradients, the effects of boundary layer flows developed in a
+cavity and the coupling effects induced by ventilation or heating systems.
+
+Many authors have dealt with gravitational flow approach through vertical openings
+\cite{shaw_whyte_1974}, \cite{brown_solvasson_1962, shaw_1976, lidwell_1977} and provided
+elementary solutions based on purely natural or
+mixed convection. Nevertheless, most of them refer to the basic solution
+developed analytically by Brown and Solvasson \cite{brown_solvasson_1962}. This solution, based on
+Bernoulli’s assumption, delivers the mass flow-through the opening as a function
+of the main characteristics of air on both sides of it.
+
+Some improvement on this approach has been made by taking into account temperature stratification on each side of the opening.
+
+In the various experimental studies developed by Balcomb et al. \cite{balcomb_yamaguchi_1983} Weber \cite{weber_1980}
+Hill et al. \cite{hill_et_al_1986} and Pelletret \cite{pelletret_khodr_1989} it appears that
+most of the steady state configurations can be well represented by uniform density gradients. 
+
+Finally, among the various problems found in defining large opening behavior
+horizontal openings should be mentioned. The most interesting aspect of horizontal openings is when the fluid above the opening has a greater density than the
+fluid below. In this case an unstable condition is reached and an exchange occurs
+between the lighter fluid flowing upward and the heavier fluid flowing downward. This problem was first studied
+by Brown \cite{brown_1962} but few authors have made a consistent contribution towards solving it.
+
+In a recent paper Epstein \cite{epstein_1988} discusses the buoyancy exchange flow through
+small openings in horizontal partitions. He presents an experimental study using
+brine above the partition and fresh water below it and identifies four different
+regimes as the aspect ratio of the opening is increased. This paper gives a good
+description of the flow processes but it is limited to purely natural convection
+effects so that the results are difficult to extend to more general configurations.
+
+Much more work is needed to describe accurately the behavior of horizontal
+openings in natural or mixed convection configurations. The few papers found in
+the literature are not sufficient to do so and they do not allow us to include such
+configurations in a multizone infiltration code.
+ 
+\paragraph{Unsteady Flows through Large Openings}
+The second category usually represents two very different kinds of configurations:
+\begin{itemize}
+\item The transient behavior of flows due to slow evolution of the boundary conditions
+\item The fluctuating air flows due to fluctuating pressures or velocities
+\end{itemize}
+
+\subparagraph{Transient Flows}
+The first type of problem is usually solved with a steady state description of the
+dynamical process. Bernouilli’s flow theory or any other correlation is used to
+calculate the steady state flow corresponding to the boundary conditions of each
+time step. The main assumption in this case is that the flow will be fully
+developed instantaneously and will follow the imposition of new boundary conditions at each time step.
+
+The variation of the boundary conditions can be given by hourly variation of
+average wind speed and direction, by a schedule of occupancy, or the working of
+mechanical ventilation systems, or by the evolution in time of the thermal state of
+the building itself.
+
+The most common way of solving the problem is to combine the air flow model
+with other models dealing with thermal simulation or any other phenomena driving the air flow process and to give a complete description of the coupled problems. In some cases, however, it is better to use a simpler approach and to give
+an estimate of the evolution in time of the flow through an opening caused by a 
+single perturbation. In this way Kiel and Wilson \cite{kiel_wilson_1986} studied the unsteady buoyancy flow that occurs during the door opening or closing period. They investigated the decrease in flow rate that results from the effect of limited interior
+volume and finally considered the effect of door pumping.
+
+Van der Maas et al. \cite{vandermaas_et_al_1989} looked at the same problem from a different point of
+view. They studied the evolution of the air flow rate and temperature in a room
+when opening a window. Assuming insulated walls and developing the energy
+balance of the inside air, they show by full-scale experiments that a reasonable
+agreement is obtained. The main advantage of such a solution is the avoidance of
+coupling with a real simulation of the thermal behavior of the whole building and
+the ability to give a quick estimate of the transient evolution of the air flow
+
+\subparagraph{Fluctuating Flows through Large Openings}
+Experimental results have shown that the fluctuating effects can be particularly
+significant in the case of one sided ventilation or when the wind direction is parallel to openings in two parallel facades.
+Nevertheless, as pointed out by Vandaele and Wouters \cite{vandaele_wouters_1989} in their
+review paper very few correlations have been proposed
+and most of them concern very particular configurations.
+
+The fluctuating flows are mainly created by the effects of turbulence due to local
+wind characteristics. They depend on the turbulence characteristics of the incoming wind
+ and on the turbulence induced by the building itself. These mechanisms
+have been studied on scale models or full scale cells and wind tunnel visualizations have
+ been used to describe the main phenomena. Turbulences in the air
+flow along an opening cause simultaneous positive and negative pressure fluctuations of the inside air.
+The studies of Cockroft et al. \cite{cockroft_robertson_1976} Warren \cite{warren_1977} Crommelin
+and Vrins \cite{crommelin_vrins_1988} and Etheridge \cite{etheridge_1984} illustrate this problem.
+
+Because of the complexity of the problem and the high number of parameters
+influencing the development of the eddies along the facade of a building very few
+correlations have been proposed and implemented in multizone air flow models.
+
+Phaff and de Gids \cite{phaff_degids_1980} propose an empirical correlation deduced from experimental
+work and give a general definition of the ventilation rate through an open window as a function of
+temperature difference, wind velocity and fluctuating terms.
+Since they found an existing flow without either wind or temperature difference a
+fixed turbulent term was added to the volumetric flow. This turbulent term is
+presented as an additional pressure drop written as a function of the flow
+exponent.
+
+These types of models, combining the effects of wind velocity, temperature
+difference and turbulence, should be able to predict the effect of fluctuating wind
+on the air flow exchange through an external opening in a multizone pressure network.
+However, much work is needed in order to give a precise description of the
+effects of the many parameters influencing the structure of the local wind at the
+very location of the opening. 
+
+\subsubsection{Integration into COMIS}
+A multizone infiltration model like COMIS is defined by a network description of
+the pressure field in a building. The pressure nodes represent control volumes or
+zones at thermodynamical equilibrium. They are linked together by nonlinear
+flow equations expressed in terms of pressure difference. Mass conservation of air
+in each zone leads to a nonlinear system of pressure equations.
+
+These are two ways of describing the behavior of large openings. Either we can
+describe the air flow rate through a large opening using a nonlinear equation of
+the pressure drop, or we can solve the problem separately and include the result as
+an unbalanced flow in the mass conservation equation of the described zone. 
+
+\subsubparagraph{Existing Solutions}
+To represent the behavior of a large opening in an air flow model we can take an
+explicit definition of the flow given by a Bernoulli flow regime assumption, or
+any other correlation of natural or mixed convection \cite{barakat_1987} corresponding to the
+configuration. In the case of both methods the large opening is disconnected from
+the general pressure network, is solved separately and then represented by an
+unbalanced flow in the mass conservation equation of each zone. Since the flow
+is strongly dependent on the pressure field around and inside the building the first
+solution will lead to a high number of iterations and a direct approach appears
+more attractive.
+
+To connect the large openings to the general pressure network it is necessary to
+define their behavior in terms of nonlinear equations of the pressure drop. The
+first possibility is to describe the large opening as a conjunction of parallel small
+openings, properly located, and with only a one-way flow allowed for each one.
+Each small opening is then described by a crack flow equation taking into
+account the local pressure drop. The whole system of nonlinear equations can be
+introduced directly into the pressure’ network. This solution was first proposed by
+Walton \cite{walton_1984} and Roldan \cite{roldan_1985} and has been used in various multizone models
+developed since (Feustel \cite{feustel_1989}). It leads to the definition of various flow elements
+in simulating one large opening.
+
+A second way to solve this problem is to interpret the flow equations of large
+openings in terms of non linear pressure laws. This method leads to the definition
+of new flow equations in pressure characterizing the behavior of large openings.
+Walton \cite{walton_1989} proposed this solution in the case of a vertical opening between two
+isothermal zones i and j for steady state flow. Following the approximation of the
+Bernoulli flow it is assumed that the velocity of the air flow at different heights is
+given by the orifice equation (Eq. (\ref{height-orifice-flow})):
+\begin{equation}\label{height-orifice-flow}
+v_{ij}(z) = \left[2\frac{P_i(z)-P_j(z)}{\rho}\right]^{1/2}
+\end{equation}
+where $\rho$ represents the density of flowing air.
+
+The hydrostatic equation is then used to relate the pressures in each room to the
+air characteristics at various heights, and the velocity equation becomes: 
+\begin{equation}\label{height-velocity-equation}
+v_{ij}(z) = \left[2\left(\frac{\left(P_{i,0}-P_{j,0}\right)-gz\left(\rho_i-\rho_j\right)}{\rho}\right)\right]^{1/2}
+\end{equation}
+
+The height of the neutral plane is given by $P_i (z) = P_j(z)$ or by setting the interzonal velocity to zero.
+In the case of a neutral plane being located in the opening,
+and taking this point as origin for altitude, since $P_i(zn) =P_j(zn)$, the mass flow
+through the doorway above and below the neutral level $zn$ are given by Eqs. (\ref{upper-integral})
+and (\ref{lower-integral}):
+\begin{equation}\label{upper-integral}
+\dot{m}_{zn,H} = Cd \int\limits_{z=0}^{z=H-zn}\rho v_{ij}(z) W dz
+\end{equation}
+%
+\begin{equation}\label{lower-integral}
+\dot{m}_{0,zn} = Cd \int\limits_{z=-zn}^{z=0}\rho v_{ij}(z) W dz
+\end{equation}
+%
+Walton \cite{walton_1984} reports that this model of doorways tends to be faster than the multiple opening approach.
+However it complicates the assembly process of the network since one or two flows may exist through the same link
+between two zones. 
+
+\subsubparagraph{COMIS Contribution}
+The main objective in proposing a solution for large openings is to fit it easily
+into the network definition and to go as far as possible in the modeling of the
+various phenomena influencing the behavior of large openings.
+The main assumptions of our model are:
+\begin{itemize}
+\item Steady flow, inviscid and incompressible fluid
+\item Linear density stratification on both sides of the opening
+\item Turbulence effects represented by an equivalent pressure difference profile
+\item Effects of reduction of the effective area of the aperture represented by a single
+coefficient 
+\end{itemize}
+\subsubparagraph{Examples of Solutions}
+\subsubsection{Conclusion}
+
+\bibliographystyle{unsrt}
+\bibliography{Fundamentals}
+\end{document}

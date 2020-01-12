@@ -13,10 +13,20 @@
 \CustomVerbatimEnvironment{commandline}{Verbatim}{xleftmargin=5mm}
 \CustomVerbatimEnvironment{inputfile}{Verbatim}{xleftmargin=5mm}
 \CustomVerbatimEnvironment{results}{Verbatim}{xleftmargin=5mm}
+\newcommand{\startexample}{Example}
+\CustomVerbatimEnvironment{example2}{Verbatim}{formatcom=\makebox[1.5cm][l]{Example},xleftmargin=5mm}
+%\newcommand{\customline}[1]{\ifodd\value{FancyVerbLine}\MakeUppercase{#1}\else#1\fi}
+%\newenvironment{example3}{\let\FancyVerbFormatLine\oldline%
+%\let\customline\FancyVerbFormatLine%
+%\begin{BVerbatim}}
+%{\end{BVerbatim}%
+%\let\oldline\FancyVerbFormatLine}
+\newenvironment{example}{\begin{BVerbatim}}{\end{BVerbatim}}
 %\newenvironment{note}{\makebox[1.5cm][l]{NOTE:}\hangindent=1.5cm}{}
 %\newenvironment{note}{\makebox[1.5cm][l]{NOTE:}\everypar={\hangindent=1.5cm}}{\par}
 \newcommand{\hangingpar}[2]{\hangindent#1\hangafter#2\noindent}
 \newcommand{\note}[1]{\makebox[1.5cm][l]{NOTE}\hangindent=1.5cm{#1}}
+\newenvironment{example1}{Example\begin{verbatim}}{\end{verbatim}}
 \newenvironment{hangingpars}[2]{\makebox[1.5cm][l]{NOTE:}\setlength{\parindent}{0pt}\everypar={\hangingpar{#1}{#2}}}{\par}
 %\newenvironment{note}{\begin{hangingpars}{1.5cm}{1}}{\end{hangingpars}}
 \usepackage{parskip}
@@ -564,6 +574,17 @@ Version Name  version name, date, etc.  `'  String 160 char
  | Name    |  Input   |  Output  |
  |_________|__________|__________|
 \end{inputfile}
+
+\begin{example}
+pres  Pa  Pa-OSR  
+temp  C  F  
+humi  g/kg  g/kg  
+INPUT  
+cflo  m3/s  
+prof  alpha  
+OUTPUT  
+mean  s
+\end{example}
 
 Example 1  pres  Pa  Pa-OSR  
 temp  C  F  
